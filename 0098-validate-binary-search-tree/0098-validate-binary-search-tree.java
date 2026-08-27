@@ -14,32 +14,21 @@
  * }
  */
 class Solution {
-    public long maxval(TreeNode root){
-        if(root == null) return Long.MIN_VALUE;
-        long  a = root.val;
-        long b =  maxval(root.left);
-        long c =  maxval(root.right);
-        
-        return Math.max(a,Math.max(b,c));
-    }
+    public void inorder(TreeNode root ,List<Integer> arr){
+        if(root == null) return;
+        inorder( root.left , arr);
+        arr.add(root.val);
+        inorder( root.right , arr);
 
-    public long minval(TreeNode root){
-        if(root == null) return Long.MAX_VALUE;
-        long  a = root.val;
-        long b = minval(root.left);
-        long c = minval(root.right);
-        
-        return Math.min(a,Math.min(b,c));
     }
-
     public boolean isValidBST(TreeNode root) {
-        if(root == null) return true;
-        if(root.val >=  minval(root.right)) return false;
-        if( root.val <= maxval(root.left)) return false;  
-        return  isValidBST(root.left) &&  isValidBST(root.right);
-
-      
-
-        
+        List<Integer> arr = new ArrayList<>();
+        inorder(root,arr);
+       // check array is sorted or not
+       for(int  i =1;i<arr.size();i++){
+        if(arr.get(i) <= arr.get(i-1)) return false;
+       }
+       return true;
+       
     }
 }
