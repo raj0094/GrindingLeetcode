@@ -14,18 +14,38 @@
  * }
  */
 class Solution {
-    public List<Integer> inorderTraversal(TreeNode root) {
-        ArrayList<Integer> ans = new ArrayList<>();
-        preorder(root,ans);  
-        return ans;     
+
+    public TreeNode predicessor(TreeNode root,TreeNode curr){
+        TreeNode ip = curr.left;
+        while(ip.right != null && ip.right != curr){
+            ip = ip.right;
+        }
+        return ip;
         
     }
+    public List<Integer> inorderTraversal(TreeNode root) {
+        ArrayList<Integer> ans = new ArrayList<>();
 
-    public static void preorder(TreeNode root,ArrayList<Integer> ans){
-        if(root == null) return;
-        preorder(root.left,ans);
-        ans.add(root.val);
-        preorder(root.right,ans);
-
+        TreeNode curr = root;
+        while(curr != null){
+            if(curr.left == null){
+                ans.add(curr.val);
+                curr = curr.right;
+            }
+            else{
+                TreeNode pred = predicessor(root,curr);
+                if(pred.right == null){
+                    pred.right = curr; // new temp connection form
+                    curr = curr.left;
+                }
+                else{
+                    pred.right = null; // delete temp connection
+                    ans.add(curr.val);
+                    curr = curr.right;
+                }
+            }
+        }
+        return ans;
+        
     }
 }
