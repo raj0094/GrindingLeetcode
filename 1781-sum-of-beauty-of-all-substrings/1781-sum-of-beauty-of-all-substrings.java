@@ -1,43 +1,42 @@
 class Solution {
     public int beautySum(String s) {
-         int sum = 0;
+         int n = s.length();
+        int sum = 0;
 
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < n; i++) {
 
-            // Create a new map for every starting index
-            HashMap<Character, Integer> map = new HashMap<>();
+            int[] freq = new int[26];
+            int maxFreq = 0;
 
-            for (int j = i; j < s.length(); j++) {
+            for (int j = i; j < n; j++) {
 
                 char ch = s.charAt(j);
 
                 // Update frequency
-                if (map.containsKey(ch)) {
-                    int freq = map.get(ch);
-                    map.put(ch, freq + 1);
-                } else {
-                    map.put(ch, 1);
+                freq[ch - 'a']++;
+
+                // Update maximum frequency
+                maxFreq = Math.max(
+                    maxFreq, freq[ch - 'a']
+                );
+
+                // Find minimum frequency
+                int minFreq = Integer.MAX_VALUE;
+
+                for (int k = 0; k < 26; k++) {
+                    if (freq[k] > 0) {
+                        minFreq = Math.min(
+                            minFreq, freq[k]
+                        );
+                    }
                 }
 
-                int maxval = Integer.MIN_VALUE;
-                int minval = Integer.MAX_VALUE;
-
-                // Find max and min frequency
-                for (char ele : map.keySet()) {
-
-                    maxval = Math.max(maxval, map.get(ele));
-                    minval = Math.min(minval, map.get(ele));
-
-                }
-
-                int res = maxval - minval;
-
-                sum += res;
+                // Add beauty
+                sum += maxFreq - minFreq;
             }
         }
 
         return sum;
-
         
     }
 }
