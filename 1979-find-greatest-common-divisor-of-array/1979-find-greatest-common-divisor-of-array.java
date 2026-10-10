@@ -1,0 +1,19 @@
+class Solution {
+
+    public int gcd(int a,int b){
+        if(b == 0) return a;
+        return gcd(b,a%b);
+
+    }
+    public int findGCD(int[] nums) {
+        int maxvalue = Integer.MIN_VALUE;
+        int minvalue = Integer.MAX_VALUE;
+        for(int i =0 ; i<nums.length;i++){
+            maxvalue  = Math.max(maxvalue ,nums[i]);
+            minvalue = Math.min(minvalue,nums[i]);
+        }
+        int a  = minvalue;
+        int b = maxvalue;
+        return gcd(a,b);       
+    }
+}
